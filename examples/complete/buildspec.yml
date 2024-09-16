@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - eval "${LAUNCH_ACTION}"
+  post_build:
+    commands:
+      - |
+        . $CODEBUILD_SRC_DIR/set_vars.sh ; test $CODEBUILD_BUILD_SUCCEEDING -eq 0 && (GITHUB_TOKEN=$(launch github auth application --application-id-parameter-name "$GITHUB_APPLICATION_ID" --installation-id-parameter-name "$GITHUB_INSTALLATION_ID" --signing-cert-secret-name "$GITHUB_SIGNING_CERT_SECRET_NAME") launch github commit status set --repository-name "${GIT_REPO}" --commit-hash "${MERGE_COMMIT_ID}" --status "failure" --target-url "${CODEBUILD_BUILD_URL}" --context "ci/shared-aws-terraform-pipeline" --description "Build failed.") || (test "$IS_PIPELINE_LAST_STAGE" = "true" && (GITHUB_TOKEN=$(launch github auth application --application-id-parameter-name "$GITHUB_APPLICATION_ID" --installation-id-parameter-name "$GITHUB_INSTALLATION_ID" --signing-cert-secret-name "$GITHUB_SIGNING_CERT_SECRET_NAME") launch github commit status set --repository-name "${GIT_REPO}" --commit-hash "${MERGE_COMMIT_ID}" --status "success" --target-url "${CODEBUILD_BUILD_URL}" --context "ci/shared-aws-terraform-pipeline" --description "Build succeeded.") || true)
