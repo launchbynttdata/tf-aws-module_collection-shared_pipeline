@@ -2,7 +2,7 @@ logical_product_family  = "pipe"
 logical_product_service = "example"
 class_env               = "root"
 instance_env            = "000"
-instance_resource       = "000"
+instance_resource       = "001"
 
 secret_name = "github/launchbynttdata/tg-aws-shared-terraform_pipeline" # pragma: allowlist secret
 
@@ -26,11 +26,11 @@ additional_codebuild_projects = [{
     type  = "PLAINTEXT"
     }, {
     name  = "USERVAR_S3_CODEPIPELINE_BUCKET"
-    value = "pipe-example-pr-event-useast2-root-000-s3-000"
+    value = "pipe-example-pr-event-useast2-root-000-s3-001"
     type  = "PLAINTEXT"
     }, {
     name  = "INTERNALS_CODEPIPELINE_BUCKET"
-    value = "pipe-example-internals-useast2-root-000-s3-000"
+    value = "pipe-example-internals-useast2-root-000-s3-001"
     type  = "PLAINTEXT"
     }, {
     "name" : "GITHUB_APPLICATION_ID",
